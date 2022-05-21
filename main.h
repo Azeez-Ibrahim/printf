@@ -5,6 +5,23 @@
 #include <unistd.h>
 #include <stdlib.h>
 
+typedef struct parameters
+{
+	unsigned int unsign			: 1;
+
+	unsigned int plus_flag		: 1;
+	unsigned int space_flag		: 1;
+	unsigned int hashtag_flag	: 1;
+	unsigned int zero_flag		: 1;
+	unsigned int minus_flag		: 1;
+
+	unsigned int width;
+	unsigned int precision;
+
+	unsigned int h_modifier		: 1;
+	unsigned int l_modifier		: 1;
+} params_t;
+
 /**
  * struct print - struct for printer functions
  * @type_arg: identifier
@@ -52,6 +69,11 @@ int (*get_print_func(const char *s, int index))(va_list, char *, unsigned int);
 int ev_print_func(const char *s, int index);
 unsigned int handl_buf(char *buf, char c, unsigned int ibuf);
 int print_buf(char *buf, unsigned int nbuf);
+int (*get_specifier(char *s))(va_list ap, params_t *params);
+int get_print_func(char *s, va_list ap, params_t *params);
+int get_flag(char *s, params_t *params);
+int get_modifier(char *s, params_t *params);
+char *get_width(char *s, params_t *params, va_list ap);
 char *fill_binary_array(char *binary, long int int_in, int isneg, int limit);
 char *fill_oct_array(char *bnr, char *oct);
 char *fill_long_oct_array(char *bnr, char *oct);
